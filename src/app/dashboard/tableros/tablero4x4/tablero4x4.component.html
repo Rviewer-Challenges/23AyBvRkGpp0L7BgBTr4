@@ -1,0 +1,13 @@
+<p>tablero4x4 works!</p>
+
+<div class="tablero">
+
+    <ng-container *ngFor="let row of matriz">
+        <ng-container *ngFor="let celda of row">
+            <app-celda class="celda" [value]="celda"></app-celda>
+
+
+        </ng-container>
+    </ng-container>
+
+</div>
