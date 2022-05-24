@@ -1,11 +1,16 @@
-<p>tablero4x4 works!</p>
+<p>Quedan {{restantes}} parejas</p>
+<p>Llevas {{movimientos}} movimientos</p>
 
 <div class="tablero">
 
-    <ng-container *ngFor="let row of matriz">
-        <ng-container *ngFor="let celda of row">
-            <app-celda class="celda" [value]="celda"></app-celda>
-
+    <ng-container *ngFor="let row of matriz; let i = index">
+        <ng-container *ngFor="let celda of row; let j = index">
+            <app-celda id="span{{i.toString()+j.toString()}}"
+                [x]="i"
+                [y]="j"
+                [value]="celda"                
+                (OnPulsado)="celdaPulsada($event)"
+                ></app-celda>
 
         </ng-container>
     </ng-container>
