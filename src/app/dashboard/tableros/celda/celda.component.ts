@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { casilla } from 'src/app/interfaces/casilla.interface';
-import { IgualesService } from '../../../services/iguales.service';
+import { JuegoService } from '../../../services/juego.service';
 
 @Component({
   selector: 'app-celda',
@@ -9,21 +9,20 @@ import { IgualesService } from '../../../services/iguales.service';
 })
 export class CeldaComponent implements OnInit {
 
-  @Input() value: number = 0;
-  @Input() x: number = 0;
-  @Input() y: number = 0;
-  iguales: boolean = false;
-
-  casilla: casilla = {
-    valor: this.value,
-    x: this.x,
-    y: this.y,
-    descubierta: false
+  @Input()
+  contenido: casilla={
+    valor: 0,
+    x: 0,
+    y: 0,
+    estado: false
   };
+  
+
+  
 
   @Output() OnPulsado: EventEmitter<casilla> = new EventEmitter<casilla>();
 
-  constructor(public igualesService: IgualesService) { }
+  constructor(public juegoService:JuegoService) { }
 
   ngOnInit(): void {
     /* this.igualesService.celda$.subscribe(estado=>{
@@ -31,23 +30,20 @@ export class CeldaComponent implements OnInit {
      })*/
   }
 
-  pulsado() {
-
-    this.casilla = {
-      valor: this.value,
-      x: this.x,
-      y: this.y,
-      descubierta: false
-    };
-    const casillaFisica = document.querySelector(`#span${this.casilla.x}${this.casilla.y}`)?.getAttribute('descubierta');
-    console.log(casillaFisica);
-    if (casillaFisica===null){
-      this.OnPulsado.emit(this.casilla);
+  pulsado() {    
+    //const casillaFisica = document.querySelector(`#span${this.casilla.x}${this.casilla.y}`)?.getAttribute('descubierta');
+    
+    this.juegoService.pulsado();
+    if ( !this.juegoService.estaDescubierta(this.contenido) ){
+      console.log('casilla pulsada');
+      this.juegoService.voltear(this.contenido);
+      this.OnPulsado.emit(this.contenido);
     }
+    
 
   }
 
-  ocultar(): string {
+  /*ocultar(): string {
     if (this.iguales) {
       return "oculta";
     }
@@ -55,5 +51,5 @@ export class CeldaComponent implements OnInit {
       return "";
     }
 
-  }
+  }*/
 }

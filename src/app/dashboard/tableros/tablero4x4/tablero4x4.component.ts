@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { IgualesService } from 'src/app/services/iguales.service';
 import { casilla } from '../../../interfaces/casilla.interface';
+import { JuegoService } from '../../../services/juego.service';
 
 @Component({
   selector: 'app-tablero4x4',
@@ -9,34 +9,32 @@ import { casilla } from '../../../interfaces/casilla.interface';
 })
 export class Tablero4x4Component implements OnInit {
 
-  public restantes:number=0;
-  public movimientos:number=0;
+  public restantes: number = 0;
+  public movimientos: number = 0;
 
-  public matriz: number[][] = [[1, 2, 3, 4], [5, 6, 7, 8], [1, 2, 3, 4], [5, 6, 7, 8],]
+  public matriz: casilla[][] = [];
 
   casillaPulsada: casilla = {
     valor: 0,
     x: 0,
     y: 0,
-    descubierta: false
+    estado: false
   };
 
-  constructor( public igualesService:IgualesService) { }
+  constructor(public juegoService: JuegoService) {
 
-  ngOnInit(): void {
-
-    this.restantes=8;
-
+    this.juegoService.crearMatriz(4, 4);
+    this.matriz = this.juegoService.matriz;
   }
-  
-  
-  
+
+  ngOnInit(): void { }
+
   resetearPulsada() {
     this.casillaPulsada = {
       valor: 0,
       x: 0,
       y: 0,
-      descubierta: false
+      estado: false
     }
   }
 
@@ -47,46 +45,44 @@ export class Tablero4x4Component implements OnInit {
 
   celdaPulsada(valor: casilla) {
 
-    this.movimientos++;
+    if (this.casillaPulsada.valor === 0)//no hay casilla anterior
+    {
+      this.casillaPulsada = valor; // guardamos la primera casilla pulsada del par a comprobar
+      return;
+    } 
+    if (this.mismaCasilla(this.casillaPulsada, valor)) { // esta es la segunda casilla del par
+      // pulsa la misma casilla
+      //TO DO voltear la casilla 
+      console.log('Ha pulsado la misma casilla, capullo');
+      this.juegoService.voltear(this.casillaPulsada);
+      this.resetearPulsada();
+      return;
+    } 
+    if (this.casillaPulsada.valor === valor.valor) { // casillas iguales
 
-    if (valor.descubierta != true) {
-      if (this.casillaPulsada.valor === 0) {
-        this.casillaPulsada.valor = valor.valor;
-        this.casillaPulsada.x = valor.x;
-        this.casillaPulsada.y = valor.y;
-        this.casillaPulsada.descubierta = valor.descubierta;
-      } else {
-        if (this.mismaCasilla(this.casillaPulsada, valor)) {
-          console.log('Ha pulsado la misma casilla, capullo');
-          this.resetearPulsada();
-          return;
-        } else {
-          if (this.casillaPulsada.valor === valor.valor) {
-            console.log('iguales');
-            console.log(this.casillaPulsada);
-            //this.igualesService.celda$.emit(true);
-            let posicion = `#span${this.casillaPulsada.x}${this.casillaPulsada.y}`;
-            console.log(posicion);
-            document.querySelector(`#span${this.casillaPulsada.x}${this.casillaPulsada.y}`)?.classList.add('color');
-            document.querySelector(`#span${valor.x}${valor.y}`)?.classList.add('color');
-            document.querySelector(`#span${this.casillaPulsada.x}${this.casillaPulsada.y}`)?.setAttribute('descubierta','ok');
-            document.querySelector(`#span${valor.x}${valor.y}`)?.setAttribute('descubierta','ok');
-            this.restantes=this.restantes-1;
-            if (this.restantes===0){
-              console.log('terminado')
-            }
-          }
-          else {
-            console.log('diferentes');
-           //this.igualesService.celda$.emit(false);
-          }
-          this.resetearPulsada();
-        }
+      console.log('iguales');
+      this.juegoService.cambiarEstado(this.casillaPulsada, valor);
+      this.juegoService.iguales();
+      this.resetearPulsada();
+      if (this.juegoService.parejasRestantes === 0) {
+        console.log('terminado')
       }
-    }else{
-      console.log('casilla descubierta');
-    }
+      
+    } else {
+      console.log('diferentes');
+      setTimeout(() => {
 
+        console.log('casilla1',this.casillaPulsada);
+        console.log('casilla2',valor);
+
+        this.juegoService.voltear(this.casillaPulsada);
+        this.juegoService.voltear(valor);
+        this.resetearPulsada();
+      }, 300);      
+      //this.igualesService.celda$.emit(false);
+    }
   }
 
 }
+
+

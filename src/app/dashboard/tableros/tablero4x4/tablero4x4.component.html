@@ -1,17 +1,13 @@
-<p>Quedan {{restantes}} parejas</p>
-<p>Llevas {{movimientos}} movimientos</p>
+<p>Quedan {{juegoService.parejasRestantes}} parejas</p>
+<p>Llevas {{juegoService.movimientosRealizados}} movimientos</p>
 
 <div class="tablero">
-
     <ng-container *ngFor="let row of matriz; let i = index">
         <ng-container *ngFor="let celda of row; let j = index">
-            <app-celda id="span{{i.toString()+j.toString()}}"
-                [x]="i"
-                [y]="j"
-                [value]="celda"                
+            <app-celda                 
+                [contenido]="celda"               
                 (OnPulsado)="celdaPulsada($event)"
                 ></app-celda>
-
         </ng-container>
     </ng-container>
 
