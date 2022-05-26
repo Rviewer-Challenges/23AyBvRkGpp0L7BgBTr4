@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { casilla } from '../../../interfaces/casilla.interface';
 import { JuegoService } from '../../../services/juego.service';
+import { ActivatedRoute,Params } from '@angular/router';
+
 
 @Component({
   selector: 'app-tablero4x4',
@@ -8,6 +10,8 @@ import { JuegoService } from '../../../services/juego.service';
   styleUrls: ['./tablero4x4.component.css']
 })
 export class Tablero4x4Component implements OnInit {
+
+  
 
   public restantes: number = 0;
   public movimientos: number = 0;
@@ -21,13 +25,33 @@ export class Tablero4x4Component implements OnInit {
     estado: false
   };
 
-  constructor(public juegoService: JuegoService) {
+  constructor(public juegoService: JuegoService,private rutaActiva:ActivatedRoute) {
+    this.matriz = []
+    
 
-    this.juegoService.crearMatriz(4, 4);
-    this.matriz = this.juegoService.matriz;
   }
 
-  ngOnInit(): void { }
+  ngOnInit(): void { 
+    this.matriz = []
+    const tablero = document.querySelector('#tablero');
+    console.log(tablero)
+    const ancho = parseInt( this.rutaActiva.snapshot.params['ancho'] );
+    const alto = parseInt( this.rutaActiva.snapshot.params['alto'] );
+
+    this.juegoService.crearMatriz(alto, ancho);
+    this.matriz = this.juegoService.matriz;
+
+    if (ancho===4){
+      if (alto===4){
+        tablero?.classList.add('tablero4x4');
+      }else {
+        tablero?.classList.add('tablero4x6');
+      }
+    }else{
+      tablero?.classList.add('tablero5x6');
+    }
+
+  }
 
   resetearPulsada() {
     this.casillaPulsada = {

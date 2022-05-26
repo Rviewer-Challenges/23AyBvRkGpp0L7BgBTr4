@@ -59,7 +59,7 @@ export class JuegoService {
           estado: false
         }
         fila.push(celda); 
-        if (k===8){
+        if (k===(alto*ancho)/2){
           k=0;
         }    
        

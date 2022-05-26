@@ -1,7 +1,7 @@
 <p>Quedan {{juegoService.parejasRestantes}} parejas</p>
 <p>Llevas {{juegoService.movimientosRealizados}} movimientos</p>
 
-<div class="tablero">
+<div id="tablero">
     <ng-container *ngFor="let row of matriz; let i = index">
         <ng-container *ngFor="let celda of row; let j = index">
             <app-celda                 

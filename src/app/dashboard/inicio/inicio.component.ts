@@ -5,13 +5,15 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './inicio.component.html',
   styleUrls: ['./inicio.component.css']
 })
-export class InicioComponent implements OnInit {
-
-  public array:number[]=[1,2,3];
+export class InicioComponent implements OnInit {  
 
   constructor() { }
 
   ngOnInit(): void {
   }
+
+ 
+
+
 
 }

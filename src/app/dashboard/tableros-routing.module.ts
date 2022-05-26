@@ -7,7 +7,7 @@ import { BrowserModule } from '@angular/platform-browser';
 
 
 const routes:Routes=[
-  { path:'tablero/tablero4x4', component:Tablero4x4Component },
+  { path:'tablero/tablero4x4/:alto/:ancho', component:Tablero4x4Component },
   
 ]
 
