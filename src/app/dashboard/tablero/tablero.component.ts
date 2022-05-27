@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { JuegoService } from '../../services/juego.service';
 
 @Component({
   selector: 'app-tablero',
@@ -8,7 +9,9 @@ import { BrowserModule } from '@angular/platform-browser';
 })
 export class TableroComponent implements OnInit {
 
-  constructor() { }
+  constructor(private juegoService:JuegoService) { 
+    
+  }
 
   ngOnInit(): void {
   }

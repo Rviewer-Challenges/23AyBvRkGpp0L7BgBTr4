@@ -1,8 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, enableProdMode } from '@angular/core';
 import { casilla } from '../../../interfaces/casilla.interface';
 import { JuegoService } from '../../../services/juego.service';
-import { ActivatedRoute,Params } from '@angular/router';
-
+import { ActivatedRoute,Params, Router } from '@angular/router';
 
 @Component({
   selector: 'app-tablero4x4',
@@ -10,13 +9,7 @@ import { ActivatedRoute,Params } from '@angular/router';
   styleUrls: ['./tablero4x4.component.css']
 })
 export class Tablero4x4Component implements OnInit {
-
-  
-
-  public restantes: number = 0;
-  public movimientos: number = 0;
-
-  public matriz: casilla[][] = [];
+   
 
   casillaPulsada: casilla = {
     valor: 0,
@@ -25,32 +18,15 @@ export class Tablero4x4Component implements OnInit {
     estado: false
   };
 
-  constructor(public juegoService: JuegoService,private rutaActiva:ActivatedRoute) {
-    this.matriz = []
+  constructor(public juegoService: JuegoService,private rutaActiva:ActivatedRoute, private router:Router) {
     
-
   }
 
-  ngOnInit(): void { 
-    this.matriz = []
-    const tablero = document.querySelector('#tablero');
-    console.log(tablero)
+  ngOnInit(): void {    
+    this.juegoService.tableroCompletado();
     const ancho = parseInt( this.rutaActiva.snapshot.params['ancho'] );
     const alto = parseInt( this.rutaActiva.snapshot.params['alto'] );
-
-    this.juegoService.crearMatriz(alto, ancho);
-    this.matriz = this.juegoService.matriz;
-
-    if (ancho===4){
-      if (alto===4){
-        tablero?.classList.add('tablero4x4');
-      }else {
-        tablero?.classList.add('tablero4x6');
-      }
-    }else{
-      tablero?.classList.add('tablero5x6');
-    }
-
+    this.juegoService.iniciarJuego(alto,ancho);    
   }
 
   resetearPulsada() {
@@ -75,37 +51,32 @@ export class Tablero4x4Component implements OnInit {
       return;
     } 
     if (this.mismaCasilla(this.casillaPulsada, valor)) { // esta es la segunda casilla del par
-      // pulsa la misma casilla
-      //TO DO voltear la casilla 
-      console.log('Ha pulsado la misma casilla, capullo');
-      this.juegoService.voltear(this.casillaPulsada);
+             
+      this.juegoService.tapar(valor);
       this.resetearPulsada();
       return;
     } 
     if (this.casillaPulsada.valor === valor.valor) { // casillas iguales
-
-      console.log('iguales');
+      
       this.juegoService.cambiarEstado(this.casillaPulsada, valor);
       this.juegoService.iguales();
       this.resetearPulsada();
       if (this.juegoService.parejasRestantes === 0) {
-        console.log('terminado')
+        alert('Ganaste!!')
+        //completa el tablero antes del tiempo y gana
+        this.juegoService.tableroCompletado();
       }
       
     } else {
       console.log('diferentes');
-      setTimeout(() => {
-
-        console.log('casilla1',this.casillaPulsada);
-        console.log('casilla2',valor);
-
-        this.juegoService.voltear(this.casillaPulsada);
-        this.juegoService.voltear(valor);
+      setTimeout(() => {        
+        this.juegoService.tapar(this.casillaPulsada);
+        this.juegoService.tapar(valor);
         this.resetearPulsada();
       }, 300);      
-      //this.igualesService.celda$.emit(false);
+      
     }
-  }
+  }  
 
 }
 

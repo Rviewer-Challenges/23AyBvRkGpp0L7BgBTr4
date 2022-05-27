@@ -1,14 +1,17 @@
 <p>Quedan {{juegoService.parejasRestantes}} parejas</p>
 <p>Llevas {{juegoService.movimientosRealizados}} movimientos</p>
+<p>Timer:{{juegoService.seconds}}</p>
 
 <div id="tablero">
-    <ng-container *ngFor="let row of matriz; let i = index">
+    <ng-container *ngFor="let row of juegoService.matriz; let i = index">
         <ng-container *ngFor="let celda of row; let j = index">
-            <app-celda                 
+            <app-celda class="reset"                 
                 [contenido]="celda"               
                 (OnPulsado)="celdaPulsada($event)"
                 ></app-celda>
         </ng-container>
     </ng-container>
+
+    <a class="boton" routerLink="/inicio"> atrás </a>
 
 </div>

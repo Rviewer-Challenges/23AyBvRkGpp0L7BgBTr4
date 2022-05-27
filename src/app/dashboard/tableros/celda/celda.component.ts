@@ -15,8 +15,7 @@ export class CeldaComponent implements OnInit {
     x: 0,
     y: 0,
     estado: false
-  };
-  
+  }; 
 
   
 
@@ -25,31 +24,20 @@ export class CeldaComponent implements OnInit {
   constructor(public juegoService:JuegoService) { }
 
   ngOnInit(): void {
-    /* this.igualesService.celda$.subscribe(estado=>{
-       this.iguales=estado;
-     })*/
+ 
   }
 
   pulsado() {    
-    //const casillaFisica = document.querySelector(`#span${this.casilla.x}${this.casilla.y}`)?.getAttribute('descubierta');
-    
+        
     this.juegoService.pulsado();
+    
     if ( !this.juegoService.estaDescubierta(this.contenido) ){
-      console.log('casilla pulsada');
-      this.juegoService.voltear(this.contenido);
+   
+      this.juegoService.descubrir(this.contenido);
       this.OnPulsado.emit(this.contenido);
     }
     
 
   }
-
-  /*ocultar(): string {
-    if (this.iguales) {
-      return "oculta";
-    }
-    else {
-      return "";
-    }
-
-  }*/
+ 
 }
