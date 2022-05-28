@@ -1,39 +1,98 @@
-
-
-.tablero{
-    display: grid;
-    grid-template-columns: repeat(4,100px);
-    grid-template-rows: repeat(4,100px);
-}
-
-.tablero4x4{
-    display: grid;
-    grid-template-columns: repeat(4,100px);
-    grid-template-rows: repeat(4,100px);
-}
-
-.tablero4x6{
-    display: grid;
-    grid-template-columns: repeat(4,100px);
-    grid-template-rows: repeat(6,100px);
-}
-
-.tablero5x6{
-    display: grid;
-    grid-template-columns: repeat(5,100px);
-    grid-template-rows: repeat(6,100px);
-}
-
-.celda{
-    border: 1px solid black;
-    width: 100px;
-    height: 100px;
+nav{
+    background-color:  var(--BgInfo);
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    width: 100%;
+    padding: 10px;
+}
+nav > p {
+    font-size: 1.2rem;
+    font-weight: 700;
+}
+.container{
+    width: 100vw;
+    height: 100vh;
+    padding: 10px;
+    background-color: var(--BgDashBoard);
+    position: relative;
 }
 
-.color{
-    background-color:black;
+.mensaje{
+    position: absolute;
+    top:0;
+    left: 0; 
+    width: 100%;
+    height: 50%;
+    border-radius: 3px;
+    background-color: var(--BgMensaje);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: center;
+    padding: 30px;
+    text-align: center;
+}
+.tablero4x4{
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    grid-template-rows: repeat(4,1fr);
+}
+
+.tablero4x6{
+    display: grid;
+    grid-template-columns: repeat(4,1fr);
+    grid-template-rows: repeat(6,1fr);
+}
+
+.tablero5x6{
+    display: grid;
+    grid-template-columns: repeat(5,1fr);
+    grid-template-rows: repeat(6,1fr);
+}
+
+.tablero4x4,.tablero4x6,.tablero5x6{
+    grid-gap: 10px;
+     
+    
+}
+.container-boton{
+    margin-top: 40px;
+}
+.boton{   
+    width: 100px;
+    height: 50px;
+    text-decoration: none;    
+    text-align: center;        
+    padding: 10px 30px;
+    background-color: var(--BgButtons);
+    cursor: pointer;
+    color: var(--TextButton);
+    border-radius: 5px;
+    font-size: 1.3rem;
+    font-weight: 700;
+    border: none;
+}
+
+.oculto{
+    display: none;
+}
+
+@media (min-width:768px){
+    .tablero5x6{        
+        grid-template-columns: repeat(6,1fr);
+        grid-template-rows: repeat(5,1fr);
+    }
+    .tablero4x6{    
+        grid-template-columns: repeat(6,1fr);
+        grid-template-rows: repeat(4,1fr);
+    }
+
+    nav{
+        flex-direction: row;
+        padding: 40px;
+        justify-content: space-around;
+    }
+   
 }

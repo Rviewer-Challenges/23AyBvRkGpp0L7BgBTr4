@@ -11,6 +11,8 @@ export class JuegoService {
   public parejasRestantes: number = 0;
   public matriz: casilla[][] = [];
   public seconds:number=10;
+  public terminado:boolean=false;
+  public mensaje:string='';
   private alto:number=0;
   private ancho:number=0;
   private contador=timer(0,1000);
@@ -26,7 +28,7 @@ export class JuegoService {
 
   descubrir(casilla:casilla){
     const celda = document.querySelector(`#span${casilla.x}${casilla.y}`);
-    console.log(casilla);
+    
     if(celda?.classList.contains('color')){
       celda?.classList.remove('color');
     }
@@ -40,6 +42,12 @@ export class JuegoService {
 
   iguales(){
     this.parejasRestantes--;
+    if (this.parejasRestantes === 0) {//completa el tablero antes del tiempo y gana
+      this.terminado=true;
+      this.tableroCompletado();    
+      this.mostrarMensaje(); 
+      
+    }
   }
 
   pulsado(){
@@ -100,13 +108,25 @@ export class JuegoService {
   inicializarContadores(){
     this.parejasRestantes=(this.alto * this.ancho) / 2 ;
     this.movimientosRealizados=0;
+    this.terminado=false;
   }
 
   tableroCompletado(){
+    if (this.terminado){ // ganó
+      this.mensaje=`Ganaste con ${this.movimientosRealizados} movimientos en ${this.seconds} segundos`;
+    }
     if(this.clock){
       this.clock.unsubscribe();
-    }
-    
+      
+      
+    }    
+  }
+
+
+  mostrarMensaje(){
+    const mensaje = document.querySelector('.mensaje');
+    console.log(mensaje)
+    mensaje?.classList.remove('oculto');
   }
 
   iniciarJuego(alto:number,ancho:number){
@@ -116,13 +136,16 @@ export class JuegoService {
     this.crearMatriz();    
     this.crearTablero();   
     this.inicializarContadores();
-
+    this.mensaje='';
     this.seconds=60;
     this.clock=this.contador.subscribe(()=>{
       this.seconds--;
       
       if (this.seconds==0){
+        this.terminado=false;
         this.clock.unsubscribe();
+        this.mensaje='Perdiste'
+        this.mostrarMensaje();
         //se acaba el tiempo y pierde
       }
     })

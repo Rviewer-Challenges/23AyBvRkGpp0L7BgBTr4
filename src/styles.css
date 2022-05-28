@@ -1,8 +1,23 @@
 /* You can add global styles to this file, and also import other style files */
+
+@import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap');
+
 *{
     padding: 0;
     margin: 0;
     box-sizing: border-box;
-
+    font-family: 'Space Mono', Arial, Helvetica, sans-serif;
+    --BgHeader:hsl(183, 100%, 15%);
+    --TextHeader:hsl(189, 41%, 97%);
+    --BgDashBoard:hsl(184, 14%, 56%);
+    --BgMensaje:hsl(0, 0%, 100%);
+    --BgHoverButtons:hsl(186, 14%, 43%);
+    --BgButtons:hsl(185, 41%, 84%);
+    --TextButton:hsl(183, 100%, 15%);
+    --BgInfo:hsl(172, 67%, 45%);
 }
 
+body{
+    width: 100vw;
+    height: 100vh;
+}

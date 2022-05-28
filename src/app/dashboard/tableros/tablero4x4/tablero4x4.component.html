@@ -1,17 +1,25 @@
-<p>Quedan {{juegoService.parejasRestantes}} parejas</p>
-<p>Llevas {{juegoService.movimientosRealizados}} movimientos</p>
-<p>Timer:{{juegoService.seconds}}</p>
+<nav>
+    <p>Quedan {{juegoService.parejasRestantes}} parejas</p>
+    <p>Llevas {{juegoService.movimientosRealizados}} movimientos</p>
+    <p>Timer:{{juegoService.seconds}}</p>
+</nav>
 
-<div id="tablero">
-    <ng-container *ngFor="let row of juegoService.matriz; let i = index">
-        <ng-container *ngFor="let celda of row; let j = index">
-            <app-celda class="reset"                 
-                [contenido]="celda"               
-                (OnPulsado)="celdaPulsada($event)"
-                ></app-celda>
+
+<div class="container">
+    <div id="tablero">
+        <ng-container *ngFor="let row of juegoService.matriz; let i = index">
+            <ng-container *ngFor="let celda of row; let j = index">
+                <app-celda class="reset" [contenido]="celda" (OnPulsado)="celdaPulsada($event)"></app-celda>
+            </ng-container>
         </ng-container>
-    </ng-container>
 
-    <a class="boton" routerLink="/inicio"> atrás </a>
-
+    </div>
+    <div class="container-boton">
+        <a class="boton" routerLink="/inicio"> atrás </a>
+    </div>
+    
+    <div class="mensaje oculto" >
+        <h2>{{juegoService.mensaje}}</h2>
+        <button class="boton" (click)="cerrar()">ok</button>
+    </div>
 </div>

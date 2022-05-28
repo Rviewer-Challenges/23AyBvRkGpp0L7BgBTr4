@@ -28,9 +28,6 @@ export class CeldaComponent implements OnInit {
   }
 
   pulsado() {    
-        
-    this.juegoService.pulsado();
-    
     if ( !this.juegoService.estaDescubierta(this.contenido) ){
    
       this.juegoService.descubrir(this.contenido);

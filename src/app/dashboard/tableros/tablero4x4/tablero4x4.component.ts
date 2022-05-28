@@ -38,6 +38,11 @@ export class Tablero4x4Component implements OnInit {
     }
   }
 
+  cerrar(){
+    const mensaje = document.querySelector('mensaje');
+    mensaje?.classList.add('oculto');
+    this.router.navigate(['/inicio']);
+  }
 
   mismaCasilla(casilla1: casilla, casilla2: casilla): boolean {
     return (casilla1.x === casilla2.x) && (casilla1.y === casilla2.y);
@@ -51,24 +56,19 @@ export class Tablero4x4Component implements OnInit {
       return;
     } 
     if (this.mismaCasilla(this.casillaPulsada, valor)) { // esta es la segunda casilla del par
-             
+      this.juegoService.pulsado();       
       this.juegoService.tapar(valor);
       this.resetearPulsada();
       return;
     } 
     if (this.casillaPulsada.valor === valor.valor) { // casillas iguales
-      
+      this.juegoService.pulsado();
       this.juegoService.cambiarEstado(this.casillaPulsada, valor);
       this.juegoService.iguales();
-      this.resetearPulsada();
-      if (this.juegoService.parejasRestantes === 0) {
-        alert('Ganaste!!')
-        //completa el tablero antes del tiempo y gana
-        this.juegoService.tableroCompletado();
-      }
+      this.resetearPulsada();      
       
     } else {
-      console.log('diferentes');
+      this.juegoService.pulsado();
       setTimeout(() => {        
         this.juegoService.tapar(this.casillaPulsada);
         this.juegoService.tapar(valor);
