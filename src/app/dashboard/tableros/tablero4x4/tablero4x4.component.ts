@@ -15,7 +15,8 @@ export class Tablero4x4Component implements OnInit {
     valor: 0,
     x: 0,
     y: 0,
-    estado: false
+    estado: false,
+    url:'',
   };
 
   constructor(public juegoService: JuegoService,private rutaActiva:ActivatedRoute, private router:Router) {
@@ -34,7 +35,9 @@ export class Tablero4x4Component implements OnInit {
       valor: 0,
       x: 0,
       y: 0,
-      estado: false
+      estado: false,
+      url:''
+
     }
   }
 

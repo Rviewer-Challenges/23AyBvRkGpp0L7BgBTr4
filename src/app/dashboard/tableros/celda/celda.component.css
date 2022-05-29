@@ -7,15 +7,21 @@
     justify-content: center;
     cursor: pointer;
     border-radius: 4px;
-    width: 80px;
-    height: 80px;
+    
 }
 
 img{
     width: 80px;
+    height: 80px;
+    margin: 0 auto;
 }
 
 .color{
     background-color: var(--TextHeader);
 }
+
+.oculta{
+    visibility: hidden;
+}
+
 

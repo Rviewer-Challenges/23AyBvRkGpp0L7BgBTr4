@@ -6,4 +6,5 @@ export interface casilla{
     x:number;
     y:number;
     estado:boolean;
+    url:string;
 }

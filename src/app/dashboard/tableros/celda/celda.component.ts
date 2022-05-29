@@ -14,7 +14,8 @@ export class CeldaComponent implements OnInit {
     valor: 0,
     x: 0,
     y: 0,
-    estado: false
+    estado: false,
+    url:''
   }; 
 
   

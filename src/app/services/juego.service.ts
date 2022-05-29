@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { casilla } from '../interfaces/casilla.interface';
 import { timer } from 'rxjs';
+import { Imagen } from '../interfaces/imagen.interface';
 
 @Injectable({
   providedIn: 'root'
@@ -17,9 +18,47 @@ export class JuegoService {
   private ancho:number=0;
   private contador=timer(0,1000);
   private clock:any;
+  private imagenes:Imagen[]=[
+    {valor:1,url:'../../assets/images/Abraham_Simpson.webp'},
+    {valor:2,url:'../../assets/images/Bart_mostrando_el_trasero.webp'},
+    {valor:3,url:'../../assets/images/Bart_Simpson.webp'},
+    {valor:4,url:'../../assets/images/Bart_y_Homero_sl.webp'},
+    {valor:5,url:'../../assets/images/Capitulo-los-simpson-bart-el-desobediente-temporada-22_1.webp'},
+    {valor:6,url:'../../assets/images/Cerebro.webp'},
+    {valor:7,url:'../../assets/images/Doh.webp'},
+    {valor:8,url:'../../assets/images/Homero-1-.webp'},
+    {valor:9,url:'../../assets/images/Lisa_Simpson.webp'},
+    {valor:10,url:'../../assets/images/LisaGuay.webp'},
+    {valor:11,url:'../../assets/images/Maggie.webp'},
+    {valor:12,url:'../../assets/images/Maggie_Simpson.webp'},
+    {valor:13,url:'../../assets/images/Marge_Simpson.webp'},
+    {valor:14,url:'../../assets/images/Homer-simpson.webp'},
+    {valor:15,url:'../../assets/images/Marge_Simpson2.webp'},
+    
+  ];
+
 
 
   constructor() { }
+
+  shuffle(array:any[]) {
+    let currentIndex = array.length, temporaryValue, randomIndex;
+  
+    // Mientras queden elementos a mezclar...
+    while (0 !== currentIndex) {
+  
+      // Seleccionar un elemento sin mezclar...
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex -= 1;
+  
+      // E intercambiarlo con el elemento actual
+      temporaryValue = array[currentIndex];
+      array[currentIndex] = array[randomIndex];
+      array[randomIndex] = temporaryValue;
+    }
+  
+    return array;
+  }
 
   cambiarEstado(casilla1:casilla,casila2:casilla){
     this.matriz[casilla1.x][casilla1.y].estado=true;            
@@ -28,15 +67,19 @@ export class JuegoService {
 
   descubrir(casilla:casilla){
     const celda = document.querySelector(`#span${casilla.x}${casilla.y}`);
+    const img = document.querySelector(`#span${casilla.x}${casilla.y} > img`);    
     
     if(celda?.classList.contains('color')){
       celda?.classList.remove('color');
+      img?.classList.remove('oculta');
     }
   }
   tapar(casilla:casilla){
     const celda = document.querySelector(`#span${casilla.x}${casilla.y}`);
+    const img = document.querySelector(`#span${casilla.x}${casilla.y} > img`);
     if (!celda?.classList.contains('color')){
       celda?.classList.add('color');
+      img?.classList.add('oculta');
     }
   } 
 
@@ -82,25 +125,28 @@ export class JuegoService {
 
   crearMatriz() {    
     this.matriz=[];
-    let k: number = 0;   
-
+    let k: number = 1;   
+    const imagenesDesordenadas= this.shuffle( this.imagenes );
+    
     for (let j = 0; j < this.alto; j++) {
       let fila = [];
       for (let i = 0; i < this.ancho; i++) {
-        k++;
+       
         let celda: casilla = {
-          valor: k,
+          valor: imagenesDesordenadas[k].valor,
           x: j,
           y: i,
-          estado: false
+          estado: false,
+          url:imagenesDesordenadas[k].url,
         }
         fila.push(celda); 
+        fila=this.shuffle(fila);
         if (k===(this.alto*this.ancho)/2){
           k=0;
         }    
-       
+        k++;
       }
-      this.matriz.push(fila);
+      this.matriz.push(this.shuffle(fila));
     } 
   }
 
@@ -113,7 +159,8 @@ export class JuegoService {
 
   tableroCompletado(){
     if (this.terminado){ // ganó
-      this.mensaje=`Ganaste con ${this.movimientosRealizados} movimientos en ${this.seconds} segundos`;
+      const restante = 60-this.seconds
+      this.mensaje=`Ganaste con ${this.movimientosRealizados} movimientos en ${restante} segundos`;
     }
     if(this.clock){
       this.clock.unsubscribe();
@@ -124,8 +171,7 @@ export class JuegoService {
 
 
   mostrarMensaje(){
-    const mensaje = document.querySelector('.mensaje');
-    console.log(mensaje)
+    const mensaje = document.querySelector('.mensaje');    
     mensaje?.classList.remove('oculto');
   }
 

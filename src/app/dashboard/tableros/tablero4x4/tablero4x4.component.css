@@ -36,23 +36,24 @@ nav > p {
 }
 .tablero4x4{
     display: grid;
-    grid-template-columns: repeat(4,1fr);
+    grid-template-columns: repeat(4,minmax(80px, 1fr));
     grid-template-rows: repeat(4,1fr);
 }
 
 .tablero4x6{
     display: grid;
-    grid-template-columns: repeat(4,1fr);
+    grid-template-columns: repeat(4,minmax(80px, 1fr));
     grid-template-rows: repeat(6,1fr);
 }
 
 .tablero5x6{
     display: grid;
-    grid-template-columns: repeat(5,1fr);
+    grid-template-columns: repeat(5,minmax(68px, 1fr));
     grid-template-rows: repeat(6,1fr);
+    grid-gap: 5px;
 }
 
-.tablero4x4,.tablero4x6,.tablero5x6{
+.tablero4x4,.tablero4x6{
     grid-gap: 10px;
      
     
@@ -81,11 +82,12 @@ nav > p {
 
 @media (min-width:768px){
     .tablero5x6{        
-        grid-template-columns: repeat(6,1fr);
+        grid-template-columns: repeat(6,minmax(80px, 1fr));
         grid-template-rows: repeat(5,1fr);
+        grid-gap: 10px;
     }
     .tablero4x6{    
-        grid-template-columns: repeat(6,1fr);
+        grid-template-columns: repeat(6,minmax(80px, 1fr));
         grid-template-rows: repeat(4,1fr);
     }
 
